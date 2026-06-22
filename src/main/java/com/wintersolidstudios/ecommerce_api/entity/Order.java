@@ -1,5 +1,5 @@
 package com.wintersolidstudios.ecommerce_api.entity;
-
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,13 +7,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Order {
 
     @Id
@@ -21,10 +19,7 @@ public class Order {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(
-            name = "user_id",
-            nullable = false
-    )
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -36,4 +31,10 @@ public class Order {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL
+    )
+    private List<OrderItem> items;
 }
